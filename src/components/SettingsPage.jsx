@@ -200,12 +200,12 @@ export default function SettingsPage({ user, onBack }) {
         <div>
           <h1 className="text-3xl font-bold text-white light:text-slate-900">Settings</h1>
           <p className="text-slate-400 mt-2 light:text-slate-600">
-            Customize your JobStream experience
+            Customize your JobFinder experience
           </p>
         </div>
 
         {/* Appearance */}
-        <Section title="Appearance" description="Customize how JobStream looks on your device">
+        <Section title="Appearance" description="Customize how JobFinder looks on your device">
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-4 light:text-slate-700">
@@ -394,7 +394,7 @@ export default function SettingsPage({ user, onBack }) {
         {/* About */}
         <div className="bg-slate-800/30 rounded-2xl border border-slate-700/50 p-6 text-center">
           <p className="text-slate-400 text-sm">
-            JobStream v1.0.0 • Made with ❤️ for job seekers everywhere
+            JobFinder v1.0.0 • Made with ❤️ for job seekers everywhere
           </p>
         </div>
       </main>

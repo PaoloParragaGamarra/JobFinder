@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, Mail, Lock, User, Eye, EyeOff, ArrowRight, Github, Chrome, AlertCircle } from 'lucide-react';
+import { Briefcase, Mail, Lock, User, Eye, EyeOff, ArrowRight, Github, Chrome, AlertCircle } from 'lucide-react';
 import { auth } from '../lib/supabase';
 
 export default function AuthPage({ onLogin }) {
@@ -175,10 +175,10 @@ export default function AuthPage({ onLogin }) {
           {/* Logo */}
           <div className="flex items-center gap-4 mb-12">
             <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-amber-500/30">
-              <Zap className="text-slate-900" size={36} strokeWidth={2.5} />
+              <Briefcase className="text-slate-900" size={32} strokeWidth={2.5} />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-white tracking-tight">JobStream</h1>
+              <h1 className="text-4xl font-bold text-white tracking-tight">JobFinder</h1>
               <p className="text-slate-400 text-lg">Find your dream job</p>
             </div>
           </div>
@@ -240,10 +240,10 @@ export default function AuthPage({ onLogin }) {
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center justify-center gap-3 mb-10">
             <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20">
-              <Zap className="text-slate-900" size={28} strokeWidth={2.5} />
+              <Briefcase className="text-slate-900" size={24} strokeWidth={2.5} />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white tracking-tight">JobStream</h1>
+              <h1 className="text-2xl font-bold text-white tracking-tight">JobFinder</h1>
               <p className="text-xs text-slate-400">Find your dream job</p>
             </div>
           </div>

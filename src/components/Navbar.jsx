@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Zap, TrendingUp, Bell, Bookmark, Settings, LogOut, User, ClipboardList } from 'lucide-react';
+import { Briefcase, TrendingUp, Bell, Bookmark, Settings, LogOut, User, ClipboardList } from 'lucide-react';
 import NotificationsDropdown from './NotificationsDropdown';
 
 const FilterButton = ({ label, isActive, onClick }) => (
@@ -169,10 +169,10 @@ export default function Navbar({
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20">
-                <Zap className="text-slate-900" size={24} strokeWidth={2.5} />
+                <Briefcase className="text-slate-900" size={22} strokeWidth={2.5} />
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight">JobStream</h1>
+                <h1 className="text-xl font-bold tracking-tight">JobFinder</h1>
                 <p className="text-xs text-slate-400">Find your dream job</p>
               </div>
             </div>

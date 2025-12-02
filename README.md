@@ -1,6 +1,6 @@
-# JobStream ⚡
+# JobFinder ⚡
 
-A modern, full-featured job aggregation and application tracking platform built with React and Supabase. JobStream helps job seekers discover opportunities from multiple sources, save favorites, apply with one click, and track their application journey—all in one beautiful, responsive interface.
+A modern, full-featured job aggregation and application tracking platform built with React and Supabase. JobFinder helps job seekers discover opportunities from multiple sources, save favorites, apply with one click, and track their application journey—all in one beautiful, responsive interface.
 
 ![React](https://img.shields.io/badge/React-19.2-61DAFB?style=flat&logo=react&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-7.2-646CFF?style=flat&logo=vite&logoColor=white)
@@ -89,8 +89,8 @@ supabase/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/jobstream.git
-   cd jobstream
+   git clone https://github.com/PaoloParragaGamarra/JobFinder.git
+   cd JobFinder
    ```
 
 2. **Install dependencies**

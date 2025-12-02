@@ -68,7 +68,7 @@ export const transformJob = (job, index) => ({
   salaryMax: job.salary_max,
   posted: formatPostedTime(job.posted_at),
   postedAt: job.posted_at,
-  source: 'JobStream',
+  source: 'JobFinder',
   logo: getJobLogo(job.title),
   color: JOB_COLORS[index % JOB_COLORS.length],
   applicants: job.applicants_count || 0,
