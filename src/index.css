@@ -1,0 +1,486 @@
+@import "tailwindcss";
+
+/* ===== Theme Variables ===== */
+:root {
+  /* Dark Theme (Default) - Warm amber accent */
+  --bg-primary: #020617;
+  --bg-secondary: #0f172a;
+  --bg-tertiary: #1e293b;
+  --bg-card: #1e293b;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --border-color: #334155;
+  --border-light: rgba(51, 65, 85, 0.5);
+  --accent-primary: #f59e0b;
+  --accent-secondary: #f97316;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-accent: rgba(245, 158, 11, 0.2);
+}
+
+/* 
+ * Light Theme - Professional & Harmonious
+ * Color Psychology Applied:
+ * - Primary Blue (#1e40af): Trust, stability, professionalism
+ * - Accent Blue (#3b82f6): Interactive elements, links
+ * - CTA Orange (#f59e0b): Action, energy, urgency (keep for buttons)
+ * - Backgrounds: Soft whites/grays for comfort and readability
+ * - Success Green (#16a34a): Positive actions
+ * - Error Red (#dc2626): Warnings, destructive actions
+ */
+.light {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --border-color: #e2e8f0;
+  --border-light: rgba(226, 232, 240, 0.8);
+  --accent-primary: #1e40af;
+  --accent-secondary: #3b82f6;
+  --shadow-color: rgba(15, 23, 42, 0.06);
+  --shadow-accent: rgba(30, 64, 175, 0.12);
+}
+
+/* ===== Base Styles ===== */
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== LIGHT MODE COMPREHENSIVE STYLING ===== */
+
+/* --- Main Backgrounds --- */
+.light .bg-slate-950 {
+  background-color: #f8fafc !important;
+}
+
+.light .bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+.light .bg-slate-900\/50 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.light .bg-slate-800 {
+  background-color: #f1f5f9 !important;
+}
+
+.light .bg-slate-800\/50,
+.light .bg-slate-800\/30 {
+  background-color: rgba(248, 250, 252, 0.95) !important;
+}
+
+.light .bg-slate-700 {
+  background-color: #e2e8f0 !important;
+}
+
+.light .bg-slate-700\/50 {
+  background-color: rgba(241, 245, 249, 0.9) !important;
+}
+
+/* --- Text Colors with Proper Contrast --- */
+.light .text-white {
+  color: #0f172a !important;
+}
+
+.light .text-slate-100 {
+  color: #1e293b !important;
+}
+
+.light .text-slate-200 {
+  color: #334155 !important;
+}
+
+.light .text-slate-300 {
+  color: #475569 !important;
+}
+
+.light .text-slate-400 {
+  color: #64748b !important;
+}
+
+.light .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* --- Border Colors - Subtle & Clean --- */
+.light .border-slate-600,
+.light .border-slate-700,
+.light .border-slate-700\/50,
+.light .border-slate-800,
+.light .border-slate-800\/50 {
+  border-color: #e2e8f0 !important;
+}
+
+/* --- Navbar Gradient - Clean White --- */
+.light .from-slate-900 {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+}
+
+.light .via-slate-800 {
+  --tw-gradient-via: #ffffff var(--tw-gradient-via-position) !important;
+}
+
+.light .to-slate-900 {
+  --tw-gradient-to: #ffffff var(--tw-gradient-to-position) !important;
+}
+
+/* --- Logo & Brand Elements - Deep Blue --- */
+.light .bg-gradient-to-br.from-amber-400.to-orange-500,
+.light .bg-gradient-to-br.from-amber-400,
+.light .from-amber-400.to-orange-500 {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+}
+
+/* Logo icon text stays white in light mode */
+.light .bg-gradient-to-br.from-amber-400.to-orange-500 .text-slate-900,
+.light .from-amber-400.to-orange-500 .text-slate-900 {
+  color: #ffffff !important;
+}
+
+/* --- Interactive Accent Colors (Blue) --- */
+.light .text-amber-400,
+.light .text-amber-500 {
+  color: #1e40af !important;
+}
+
+.light .bg-amber-500\/10,
+.light .bg-amber-500\/20 {
+  background-color: rgba(30, 64, 175, 0.06) !important;
+}
+
+.light .bg-amber-500\/30 {
+  background-color: rgba(30, 64, 175, 0.1) !important;
+}
+
+.light .border-amber-500,
+.light .border-amber-500\/50 {
+  border-color: #3b82f6 !important;
+}
+
+/* --- Filter Buttons Active State --- */
+.light .bg-amber-500.text-slate-900 {
+  background-color: #1e40af !important;
+  color: #ffffff !important;
+}
+
+.light .bg-amber-500 {
+  background-color: #1e40af !important;
+}
+
+/* --- Notification Badge - Red for visibility --- */
+.light span.bg-amber-500,
+.light .absolute.-top-1.-right-1.bg-amber-500 {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+/* --- Primary CTA Buttons - Keep Warm Orange for Action --- */
+.light .bg-gradient-to-r.from-amber-500.to-orange-500,
+.light .from-amber-500.to-orange-500 {
+  background: linear-gradient(to right, #f59e0b, #ea580c) !important;
+}
+
+.light .bg-gradient-to-r.from-amber-500.to-orange-500 span,
+.light .from-amber-500.to-orange-500 span {
+  color: #ffffff !important;
+}
+
+.light .hover\:from-amber-400:hover {
+  --tw-gradient-from: #fbbf24 var(--tw-gradient-from-position) !important;
+}
+
+.light .hover\:to-orange-400:hover {
+  --tw-gradient-to: #f97316 var(--tw-gradient-to-position) !important;
+}
+
+/* --- Selected Job Card Indicator --- */
+.light .border-l-4.border-amber-500,
+.light .border-l-amber-500 {
+  border-left-color: #1e40af !important;
+}
+
+/* --- Shadows - Subtle & Professional --- */
+.light .shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+}
+
+.light .shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02) !important;
+}
+
+.light .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02) !important;
+}
+
+.light .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.01) !important;
+}
+
+.light .shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.06) !important;
+}
+
+.light .shadow-amber-500\/20,
+.light .shadow-amber-500\/30 {
+  --tw-shadow-color: rgba(30, 64, 175, 0.1) !important;
+}
+
+/* --- Hover States --- */
+.light .hover\:bg-slate-700\/50:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.light .hover\:bg-slate-700:hover {
+  background-color: #e2e8f0 !important;
+}
+
+.light .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+.light .hover\:bg-amber-500\/30:hover {
+  background-color: rgba(30, 64, 175, 0.1) !important;
+}
+
+/* --- Form Elements --- */
+.light input,
+.light textarea,
+.light select {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+.light input::placeholder,
+.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+.light input:focus,
+.light textarea:focus,
+.light select:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08) !important;
+  outline: none !important;
+}
+
+/* --- Dropdown Menus --- */
+.light .bg-slate-800.border-slate-700 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* --- Tags & Badges --- */
+.light .bg-slate-700\/30,
+.light .bg-slate-700\/50 {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* --- Info/Stats Boxes --- */
+.light .bg-gradient-to-r.from-amber-500\/10.to-orange-500\/10 {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.04), rgba(99, 102, 241, 0.04)) !important;
+}
+
+/* --- Status Colors --- */
+.light .text-green-400,
+.light .text-green-500 {
+  color: #16a34a !important;
+}
+
+.light .bg-green-500 {
+  background-color: #16a34a !important;
+}
+
+.light .text-red-400,
+.light .text-red-500 {
+  color: #dc2626 !important;
+}
+
+.light .bg-red-500\/10,
+.light .bg-red-500\/20 {
+  background-color: rgba(220, 38, 38, 0.06) !important;
+}
+
+.light .hover\:bg-red-500\/10:hover {
+  background-color: rgba(220, 38, 38, 0.08) !important;
+}
+
+/* Job card icon gradients keep their vibrant colors in light mode */
+
+/* --- User Avatar in Light Mode --- */
+.light .rounded-full.bg-gradient-to-br.from-amber-400.to-orange-500 {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+}
+
+.light .rounded-full.bg-gradient-to-br.from-amber-400.to-orange-500 .text-slate-900,
+.light .rounded-full.bg-gradient-to-br .font-bold.text-slate-900 {
+  color: #ffffff !important;
+}
+
+/* --- Scrollbar Styling --- */
+.light ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.light ::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Dark mode scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* --- Card & Panel Backgrounds --- */
+.light .bg-gradient-to-br.from-slate-800\/50.to-slate-800\/30 {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* --- Active/Selected States --- */
+.light .border-l-4 {
+  border-left-color: #1e40af !important;
+}
+
+/* --- Link Colors --- */
+.light a.text-amber-400,
+.light a.text-amber-500 {
+  color: #2563eb !important;
+}
+
+.light a.text-amber-400:hover,
+.light a.text-amber-500:hover {
+  color: #1d4ed8 !important;
+}
+
+/* --- Smooth Theme Transition --- */
+.light *:not(input):not(textarea):not(select) {
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.1s ease, box-shadow 0.15s ease;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes bell-ring {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(15deg); }
+  20% { transform: rotate(-15deg); }
+  30% { transform: rotate(12deg); }
+  40% { transform: rotate(-12deg); }
+  50% { transform: rotate(8deg); }
+  60% { transform: rotate(-8deg); }
+  70% { transform: rotate(4deg); }
+  80% { transform: rotate(-4deg); }
+  90% { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.animate-bell-ring {
+  animation: bell-ring 0.8s ease-in-out;
+  transform-origin: top center;
+}
+
+@keyframes ping-once {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-ping-once {
+  animation: ping-once 0.5s ease-in-out;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(245, 158, 11, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.8), 0 0 30px rgba(245, 158, 11, 0.4); }
+}
+
+@keyframes glow-light {
+  0%, 100% { box-shadow: 0 0 4px rgba(30, 64, 175, 0.2); }
+  50% { box-shadow: 0 0 12px rgba(30, 64, 175, 0.4), 0 0 20px rgba(30, 64, 175, 0.15); }
+}
+
+.animate-glow {
+  animation: glow 1s ease-in-out infinite;
+}
+
+.light .animate-glow {
+  animation: glow-light 1s ease-in-out infinite;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* ===== Additional Light Mode Polish ===== */
+
+/* Job list sidebar subtle gradient */
+.light .flex-1.overflow-y-auto.bg-slate-800\/50 {
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%) !important;
+}
+
+/* Section dividers */
+.light .h-8.w-px.bg-slate-700\/50,
+.light .w-px.bg-slate-700 {
+  background-color: #e2e8f0 !important;
+}
+
+/* Stat counters background */
+.light .bg-slate-800\/50.rounded-lg.border-slate-700\/50 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Job card icon gradients (blue, purple, green, etc.) remain vibrant in light mode */
