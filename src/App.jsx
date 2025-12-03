@@ -1,17 +1,49 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import AuthPage from './components/AuthPage'
 import JobDashboard from './components/JobDashboard'
 import ProfilePage from './components/ProfilePage'
 import SettingsPage from './components/SettingsPage'
 import ApplicationsPage from './components/ApplicationsPage'
 import { SettingsProvider } from './hooks/useSettings'
-import { auth } from './lib/supabase'
+import { auth, profiles } from './lib/supabase'
 
 function App() {
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [currentView, setCurrentView] = useState('dashboard') // 'dashboard', 'profile', 'settings', or 'applications'
   const [selectedJobId, setSelectedJobId] = useState(null)
+
+  // Helper to build user object with profile data
+  const buildUserObject = useCallback(async (authUser) => {
+    const baseUser = {
+      id: authUser.id,
+      name: authUser.user_metadata?.full_name || authUser.email.split('@')[0],
+      email: authUser.email,
+      initials: (authUser.user_metadata?.full_name || authUser.email).slice(0, 2).toUpperCase(),
+      avatarUrl: null
+    }
+
+    // Try to fetch profile to get avatar_url
+    try {
+      const { data: profile } = await profiles.get(authUser.id)
+      if (profile?.avatar_url) {
+        baseUser.avatarUrl = profile.avatar_url
+      }
+      if (profile?.full_name) {
+        baseUser.name = profile.full_name
+        baseUser.initials = profile.full_name.slice(0, 2).toUpperCase()
+      }
+    } catch (err) {
+      console.log('Could not fetch profile for avatar:', err)
+    }
+
+    return baseUser
+  }, [])
+
+  // Function to update user avatar (called from ProfilePage)
+  const handleAvatarUpdate = useCallback((newAvatarUrl) => {
+    setUser(prev => prev ? { ...prev, avatarUrl: newAvatarUrl } : null)
+  }, [])
 
   // Check for existing session on mount and listen for auth changes
   useEffect(() => {
@@ -21,12 +53,8 @@ function App() {
         const { session } = await auth.getSession()
         
         if (session?.user) {
-          setUser({
-            id: session.user.id,
-            name: session.user.user_metadata?.full_name || session.user.email.split('@')[0],
-            email: session.user.email,
-            initials: (session.user.user_metadata?.full_name || session.user.email).slice(0, 2).toUpperCase()
-          })
+          const userData = await buildUserObject(session.user)
+          setUser(userData)
         }
       } catch (error) {
         console.error('Error checking auth:', error)
@@ -38,14 +66,10 @@ function App() {
     initAuth()
 
     // Listen for auth state changes (for OAuth callbacks and session changes)
-    const { data: { subscription } } = auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
-        setUser({
-          id: session.user.id,
-          name: session.user.user_metadata?.full_name || session.user.email.split('@')[0],
-          email: session.user.email,
-          initials: (session.user.user_metadata?.full_name || session.user.email).slice(0, 2).toUpperCase()
-        })
+        const userData = await buildUserObject(session.user)
+        setUser(userData)
       } else if (event === 'SIGNED_OUT') {
         setUser(null)
       }
@@ -55,7 +79,7 @@ function App() {
     return () => {
       subscription?.unsubscribe()
     }
-  }, [])
+  }, [buildUserObject])
 
   const handleLogin = (userData) => {
     setUser(userData)
@@ -116,7 +140,7 @@ function App() {
   if (currentView === 'profile') {
     return (
       <SettingsProvider userId={user.id}>
-        <ProfilePage user={user} onBack={handleBackToDashboard} />
+        <ProfilePage user={user} onBack={handleBackToDashboard} onAvatarUpdate={handleAvatarUpdate} />
       </SettingsProvider>
     )
   }

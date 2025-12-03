@@ -444,3 +444,63 @@ export const resumeStorage = {
     return { data, error }
   }
 }
+
+// Avatar storage helper functions (PUBLIC bucket for profile pictures)
+export const avatarStorage = {
+  // Upload an avatar image
+  upload: async (userId, file) => {
+    const fileExt = file.name.split('.').pop().toLowerCase()
+    const fileName = `${userId}/avatar.${fileExt}`
+    
+    // Delete existing avatar first (to replace it)
+    await supabase.storage
+      .from('avatars')
+      .remove([`${userId}/avatar.png`, `${userId}/avatar.jpg`, `${userId}/avatar.jpeg`, `${userId}/avatar.webp`])
+    
+    const { data, error } = await supabase.storage
+      .from('avatars')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: true // Replace if exists
+      })
+    
+    if (error) return { data: null, error }
+    
+    // Get public URL (avatars can be public since they're displayed in UI)
+    const { data: urlData } = supabase.storage
+      .from('avatars')
+      .getPublicUrl(fileName)
+    
+    // Add cache buster to URL to force refresh
+    const urlWithCacheBuster = `${urlData.publicUrl}?t=${Date.now()}`
+    
+    return { 
+      data: { 
+        path: data.path, 
+        url: urlWithCacheBuster
+      }, 
+      error: null 
+    }
+  },
+
+  // Get public URL for an avatar
+  getUrl: (userId, fileExt = 'png') => {
+    const { data } = supabase.storage
+      .from('avatars')
+      .getPublicUrl(`${userId}/avatar.${fileExt}`)
+    return data.publicUrl
+  },
+
+  // Delete avatar
+  delete: async (userId) => {
+    const { error } = await supabase.storage
+      .from('avatars')
+      .remove([
+        `${userId}/avatar.png`,
+        `${userId}/avatar.jpg`, 
+        `${userId}/avatar.jpeg`,
+        `${userId}/avatar.webp`
+      ])
+    return { error }
+  }
+}

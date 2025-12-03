@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { useProfile } from '../hooks/useProfile';
 import ResumeUpload from './ResumeUpload';
+import AvatarUpload from './AvatarUpload';
 
 const InputField = ({ label, icon: Icon, error, ...props }) => (
   <div className="space-y-2">
@@ -89,7 +90,7 @@ const Section = ({ title, children }) => (
   </div>
 );
 
-export default function ProfilePage({ user, onBack }) {
+export default function ProfilePage({ user, onBack, onAvatarUpdate }) {
   const { profile, isLoading, isSaving, error, updateProfile } = useProfile(user?.id);
   
   const [formData, setFormData] = useState({
@@ -279,15 +280,18 @@ export default function ProfilePage({ user, onBack }) {
         {/* Profile Header */}
         <div className="bg-slate-800/30 rounded-2xl border border-slate-700/50 p-8">
           <div className="flex flex-col sm:flex-row items-center gap-6">
-            {/* Avatar */}
-            <div className="relative group">
-              <div className="w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-4xl font-bold text-slate-900 shadow-xl shadow-amber-500/20">
-                {formData.full_name?.slice(0, 2).toUpperCase() || user?.initials || 'U'}
-              </div>
-              <button className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <Camera size={24} className="text-white" />
-              </button>
-            </div>
+            {/* Avatar Upload */}
+            <AvatarUpload
+              userId={user?.id}
+              currentAvatarUrl={profile?.avatar_url}
+              userName={formData.full_name || user?.name}
+              onAvatarChange={(newUrl) => {
+                // Update the navbar avatar in real-time
+                if (onAvatarUpdate) {
+                  onAvatarUpdate(newUrl);
+                }
+              }}
+            />
 
             {/* Basic Info */}
             <div className="flex-1 text-center sm:text-left">

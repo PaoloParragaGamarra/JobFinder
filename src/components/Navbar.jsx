@@ -19,9 +19,17 @@ const UserMenu = ({ user, isOpen, onToggle, onClose, onLogout, onShowSavedJobs, 
   <div className="relative">
     <button 
       onClick={onToggle}
-      className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center font-bold text-slate-900 cursor-pointer hover:scale-105 transition-transform shadow-lg shadow-amber-500/20"
+      className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center font-bold text-slate-900 cursor-pointer hover:scale-105 transition-transform shadow-lg shadow-amber-500/20 overflow-hidden"
     >
-      {user?.initials || 'JD'}
+      {user?.avatarUrl ? (
+        <img 
+          src={user.avatarUrl} 
+          alt={user.name || 'User'} 
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        user?.initials || 'JD'
+      )}
     </button>
     
     {isOpen && (
@@ -30,8 +38,16 @@ const UserMenu = ({ user, isOpen, onToggle, onClose, onLogout, onShowSavedJobs, 
         <div className="absolute right-0 mt-2 w-64 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl z-20 overflow-hidden">
           <div className="p-4 border-b border-slate-700">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center font-bold text-slate-900">
-                {user?.initials || 'JD'}
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center font-bold text-slate-900 overflow-hidden">
+                {user?.avatarUrl ? (
+                  <img 
+                    src={user.avatarUrl} 
+                    alt={user.name || 'User'} 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  user?.initials || 'JD'
+                )}
               </div>
               <div>
                 <p className="font-semibold text-white">{user?.name || 'User'}</p>
