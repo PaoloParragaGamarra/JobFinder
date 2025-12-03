@@ -20,9 +20,11 @@ import {
   AlertCircle,
   Loader2,
   Camera,
-  Edit3
+  Edit3,
+  Upload
 } from 'lucide-react';
 import { useProfile } from '../hooks/useProfile';
+import ResumeUpload from './ResumeUpload';
 
 const InputField = ({ label, icon: Icon, error, ...props }) => (
   <div className="space-y-2">
@@ -529,16 +531,12 @@ export default function ProfilePage({ user, onBack }) {
                 onChange={handleChange}
                 placeholder="https://yourportfolio.com"
               />
-              <InputField
-                label="Resume URL"
-                icon={FileText}
-                name="resume_url"
-                type="url"
-                value={formData.resume_url}
-                onChange={handleChange}
-                placeholder="https://drive.google.com/your-resume"
-              />
             </div>
+          </Section>
+
+          {/* Resume Management */}
+          <Section title="Resume & Documents">
+            <ResumeUpload userId={user?.id} />
           </Section>
 
           {/* Save Button (Mobile) */}

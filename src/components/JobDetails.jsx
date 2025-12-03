@@ -2,12 +2,21 @@ import React, { useState } from 'react';
 import { 
   MapPin, Briefcase, DollarSign, Clock, ExternalLink, 
   Heart, ChevronRight, Building2, Share2, BarChart3,
-  CheckCircle2, Loader2 
+  CheckCircle2, Loader2, X, FileText, Upload
 } from 'lucide-react';
+import { ResumeSelector } from './ResumeUpload';
 
-export default function JobDetails({ job, isLiked, onToggleLike, hasApplied, application, onApply }) {
+export default function JobDetails({ job, isLiked, onToggleLike, hasApplied, application, onApply, userId }) {
   const [isApplying, setIsApplying] = useState(false);
   const [applyError, setApplyError] = useState(null);
+  const [showApplyModal, setShowApplyModal] = useState(false);
+  const [selectedResume, setSelectedResume] = useState(null);
+
+  const handleApplyClick = () => {
+    if (!job || hasApplied || isApplying) return;
+    setShowApplyModal(true);
+    setApplyError(null);
+  };
 
   const handleApply = async () => {
     if (!job || hasApplied || isApplying) return;
@@ -16,9 +25,30 @@ export default function JobDetails({ job, isLiked, onToggleLike, hasApplied, app
     setApplyError(null);
     
     try {
+      const result = await onApply(job.id, null, selectedResume?.url || null);
+      if (!result.success) {
+        setApplyError(result.error);
+      } else {
+        setShowApplyModal(false);
+        setSelectedResume(null);
+      }
+    } catch (err) {
+      setApplyError('Failed to submit application');
+    } finally {
+      setIsApplying(false);
+    }
+  };
+
+  const handleApplyWithoutResume = async () => {
+    setIsApplying(true);
+    setApplyError(null);
+    
+    try {
       const result = await onApply(job.id);
       if (!result.success) {
         setApplyError(result.error);
+      } else {
+        setShowApplyModal(false);
       }
     } catch (err) {
       setApplyError('Failed to submit application');
@@ -48,7 +78,7 @@ export default function JobDetails({ job, isLiked, onToggleLike, hasApplied, app
           hasApplied={hasApplied} 
           application={application}
           isApplying={isApplying}
-          onApply={handleApply}
+          onApply={handleApplyClick}
           applyError={applyError}
         />
 
@@ -91,6 +121,21 @@ export default function JobDetails({ job, isLiked, onToggleLike, hasApplied, app
           </div>
         </Section>
       </div>
+
+      {/* Apply Modal */}
+      {showApplyModal && (
+        <ApplyModal
+          job={job}
+          userId={userId}
+          selectedResume={selectedResume}
+          onSelectResume={setSelectedResume}
+          onApply={handleApply}
+          onApplyWithoutResume={handleApplyWithoutResume}
+          onClose={() => setShowApplyModal(false)}
+          isApplying={isApplying}
+          error={applyError}
+        />
+      )}
     </div>
   );
 }
@@ -282,5 +327,121 @@ function BenefitItem({ text }) {
     <div className="px-4 py-4 bg-gradient-to-br from-slate-800/80 to-slate-800/40 border border-slate-700/50 rounded-xl text-slate-300 text-sm font-medium hover:border-amber-500/30 transition-all text-center hover:scale-105">
       {text}
     </div>
+  );
+}
+
+function ApplyModal({ job, userId, selectedResume, onSelectResume, onApply, onApplyWithoutResume, onClose, isApplying, error }) {
+  const [showUpload, setShowUpload] = useState(false);
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div 
+          className="bg-slate-900 border border-slate-700/50 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="p-6 border-b border-slate-700/50">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-white">Apply to Position</h3>
+              <button
+                onClick={onClose}
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            
+            {/* Job Info */}
+            <div className="flex items-center gap-3">
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${job.color} flex items-center justify-center text-2xl`}>
+                {job.logo}
+              </div>
+              <div>
+                <p className="font-semibold text-white">{job.title}</p>
+                <p className="text-sm text-slate-400">{job.company}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="p-6 space-y-4">
+            {/* Resume Selection */}
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                <FileText size={16} className="text-amber-500" />
+                Select Resume (Optional)
+              </label>
+              
+              {showUpload ? (
+                <div className="space-y-3">
+                  <p className="text-sm text-slate-400">
+                    Upload a new resume from your Profile page to use it here.
+                  </p>
+                  <button
+                    onClick={() => setShowUpload(false)}
+                    className="text-sm text-amber-400 hover:text-amber-300"
+                  >
+                    ← Back to resume selection
+                  </button>
+                </div>
+              ) : (
+                <ResumeSelector
+                  userId={userId}
+                  selectedResume={selectedResume}
+                  onSelect={onSelectResume}
+                  onUploadNew={() => setShowUpload(true)}
+                />
+              )}
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                <p className="text-red-400 text-sm">{error}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="p-6 border-t border-slate-700/50 bg-slate-800/30 space-y-3">
+            <button
+              onClick={onApply}
+              disabled={isApplying}
+              className="w-full px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-900 font-bold rounded-xl hover:from-amber-400 hover:to-orange-400 transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isApplying ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                <>
+                  <span>{selectedResume ? 'Apply with Resume' : 'Apply Now'}</span>
+                  <ChevronRight size={18} />
+                </>
+              )}
+            </button>
+            
+            {selectedResume && (
+              <button
+                onClick={onApplyWithoutResume}
+                disabled={isApplying}
+                className="w-full px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors disabled:opacity-50"
+              >
+                Apply without resume
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

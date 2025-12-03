@@ -355,3 +355,92 @@ export const userSettings = {
     return { data, error }
   }
 }
+
+// Resume storage helper functions
+export const resumeStorage = {
+  // Upload a resume file
+  upload: async (userId, file) => {
+    const fileExt = file.name.split('.').pop()
+    const timestamp = Date.now()
+    const fileName = `${userId}/${timestamp}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
+    
+    const { data, error } = await supabase.storage
+      .from('resumes')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+    
+    if (error) return { data: null, error }
+    
+    // Get signed URL (valid for 1 hour) - for private bucket
+    const { data: urlData, error: urlError } = await supabase.storage
+      .from('resumes')
+      .createSignedUrl(fileName, 3600) // 1 hour expiration
+    
+    return { 
+      data: { 
+        path: data.path, 
+        url: urlData?.signedUrl || null,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        uploadedAt: new Date().toISOString()
+      }, 
+      error: urlError 
+    }
+  },
+
+  // List all resumes for a user
+  list: async (userId) => {
+    const { data, error } = await supabase.storage
+      .from('resumes')
+      .list(userId, {
+        sortBy: { column: 'created_at', order: 'desc' }
+      })
+    
+    if (error) return { data: null, error }
+    
+    // Generate signed URLs for each file (valid for 1 hour)
+    const filesWithUrls = await Promise.all(
+      data.map(async (file) => {
+        const filePath = `${userId}/${file.name}`
+        const { data: urlData } = await supabase.storage
+          .from('resumes')
+          .createSignedUrl(filePath, 3600)
+        
+        return {
+          ...file,
+          url: urlData?.signedUrl || null,
+          path: filePath
+        }
+      })
+    )
+    
+    return { data: filesWithUrls, error: null }
+  },
+
+  // Delete a resume
+  delete: async (filePath) => {
+    const { error } = await supabase.storage
+      .from('resumes')
+      .remove([filePath])
+    return { error }
+  },
+
+  // Get signed URL for a resume (private bucket)
+  getSignedUrl: async (filePath, expiresIn = 3600) => {
+    const { data, error } = await supabase.storage
+      .from('resumes')
+      .createSignedUrl(filePath, expiresIn)
+    return { url: data?.signedUrl || null, error }
+  },
+
+  // Download a resume
+  download: async (filePath) => {
+    const { data, error } = await supabase.storage
+      .from('resumes')
+      .download(filePath)
+    return { data, error }
+  }
+}

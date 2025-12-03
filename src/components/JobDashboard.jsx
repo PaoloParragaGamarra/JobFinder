@@ -163,6 +163,7 @@ export default function JobDashboard({ user, onLogout, onShowProfile, onShowSett
 
         <JobDetails
           job={selectedJob}
+          userId={user?.id}
           isLiked={selectedJob ? isJobSaved(selectedJob.id) : false}
           onToggleLike={toggleSaveJob}
           hasApplied={selectedJob ? hasAppliedToJob(selectedJob.id) : false}
