@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { applications } from '../lib/supabase';
+import { applications } from '../services/applications.service';
 
 /**
  * Custom hook for managing job applications

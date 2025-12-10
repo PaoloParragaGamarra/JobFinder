@@ -5,7 +5,7 @@ import {
   Search, Filter, Calendar, TrendingUp, AlertCircle,
   MoreVertical, ExternalLink, Trash2
 } from 'lucide-react';
-import { useApplications } from '../hooks/useApplications';
+import { useApplications } from '../../hooks/useApplications';
 
 const STATUS_CONFIG = {
   applied: { 

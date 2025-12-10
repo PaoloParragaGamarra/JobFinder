@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Briefcase, TrendingUp, Bell, Bookmark, Settings, LogOut, User, ClipboardList } from 'lucide-react';
-import NotificationsDropdown from './NotificationsDropdown';
+import NotificationsDropdown from '../notifications/NotificationsDropdown';
 
 const FilterButton = ({ label, isActive, onClick }) => (
   <button

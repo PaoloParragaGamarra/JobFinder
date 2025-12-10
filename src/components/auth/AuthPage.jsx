@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Briefcase, Mail, Lock, User, Eye, EyeOff, ArrowRight, Github, Chrome, AlertCircle } from 'lucide-react';
-import { auth } from '../lib/supabase';
+import { auth } from '../../services';
 
 export default function AuthPage({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true);

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, createContext, useContext, createElement } from 'react';
-import { userSettings } from '../lib/supabase';
+import { userSettings } from '../services/settings.service';
 
 const defaultSettings = {
   theme: 'dark', // 'light', 'dark', 'system'

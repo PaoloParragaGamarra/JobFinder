@@ -23,9 +23,9 @@ import {
   Edit3,
   Upload
 } from 'lucide-react';
-import { useProfile } from '../hooks/useProfile';
+import { useProfile } from '../../hooks/useProfile';
 import ResumeUpload from './ResumeUpload';
-import AvatarUpload from './AvatarUpload';
+import AvatarUpload from '../common/AvatarUpload';
 
 const InputField = ({ label, icon: Icon, error, ...props }) => (
   <div className="space-y-2">

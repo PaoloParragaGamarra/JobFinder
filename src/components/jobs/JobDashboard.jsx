@@ -1,15 +1,15 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { useJobs } from '../hooks/useJobs';
-import { useSavedJobs } from '../hooks/useSavedJobs';
-import { useNotifications } from '../hooks/useNotifications';
-import { useApplications } from '../hooks/useApplications';
-import { filterJobsAdvanced, countActiveFilters, getDefaultFilters } from '../utils/jobUtils';
-import Navbar from './Navbar';
+import { useJobs } from '../../hooks/useJobs';
+import { useSavedJobs } from '../../hooks/useSavedJobs';
+import { useNotifications } from '../../hooks/useNotifications';
+import { useApplications } from '../../hooks/useApplications';
+import { filterJobsAdvanced, countActiveFilters, getDefaultFilters } from '../../utils/jobUtils';
+import { Navbar } from '../common';
+import { ToastContainer } from '../common/ToastNotification';
 import JobList from './JobList';
 import JobDetails from './JobDetails';
 import SavedJobsSidebar from './SavedJobsSidebar';
 import AdvancedFilters from './AdvancedFilters';
-import { ToastContainer } from './ToastNotification';
 
 /**
  * Main Job Dashboard Component

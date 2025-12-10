@@ -13,7 +13,7 @@ import {
   File,
   ExternalLink
 } from 'lucide-react';
-import { useResume } from '../hooks/useResume';
+import { useResume } from '../../hooks/useResume';
 
 /**
  * Resume Upload and Management Component

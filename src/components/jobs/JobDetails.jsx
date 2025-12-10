@@ -4,7 +4,7 @@ import {
   Heart, ChevronRight, Building2, Share2, BarChart3,
   CheckCircle2, Loader2, X, FileText, Upload
 } from 'lucide-react';
-import { ResumeSelector } from './ResumeUpload';
+import { ResumeSelector } from '../profile/ResumeUpload';
 
 export default function JobDetails({ job, isLiked, onToggleLike, hasApplied, application, onApply, userId }) {
   const [isApplying, setIsApplying] = useState(false);

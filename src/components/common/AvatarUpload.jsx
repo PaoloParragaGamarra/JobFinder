@@ -9,7 +9,7 @@ import {
   Upload,
   User
 } from 'lucide-react';
-import { useAvatar } from '../hooks/useAvatar';
+import { useAvatar } from '../../hooks/useAvatar';
 
 /**
  * Avatar Upload Component with preview and edit functionality

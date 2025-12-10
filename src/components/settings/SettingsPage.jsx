@@ -22,7 +22,7 @@ import {
   ToggleRight,
   ChevronRight,
 } from 'lucide-react';
-import { useSettings } from '../hooks/useSettings';
+import { useSettings } from '../../hooks/useSettings';
 
 const ToggleSwitch = ({ enabled, onChange, disabled = false }) => (
   <button

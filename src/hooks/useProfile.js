@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { profiles, auth } from '../lib/supabase';
+import { profiles, auth } from '../services/profiles.service';
 
 /**
  * Custom hook for managing user profile data

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { resumeStorage, profiles } from '../lib/supabase';
+import { resumeStorage, profiles } from '../services/storage.service';
 
 const ALLOWED_TYPES = [
   'application/pdf',

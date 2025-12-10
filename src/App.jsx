@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
-import AuthPage from './components/AuthPage'
-import JobDashboard from './components/JobDashboard'
-import ProfilePage from './components/ProfilePage'
-import SettingsPage from './components/SettingsPage'
-import ApplicationsPage from './components/ApplicationsPage'
+import { AuthPage } from './components/auth'
+import { JobDashboard } from './components/jobs'
+import { ProfilePage } from './components/profile'
+import { SettingsPage } from './components/settings'
+import { ApplicationsPage } from './components/applications'
 import { SettingsProvider } from './hooks/useSettings'
-import { auth, profiles } from './lib/supabase'
+import { auth } from './services/supabase'
+import { profiles } from './services/profiles.service'
 
 function App() {
   const [user, setUser] = useState(null)

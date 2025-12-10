@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { avatarStorage, profiles } from '../lib/supabase';
+import { avatarStorage, profiles } from '../services/storage.service';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
