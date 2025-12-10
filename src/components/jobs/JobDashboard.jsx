@@ -24,6 +24,7 @@ import AdvancedFilters from './AdvancedFilters';
 export default function JobDashboard({ user, onLogout, onShowProfile, onShowSettings, onShowApplications, initialSelectedJobId }) {
   // UI State
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [selectedJobId, setSelectedJobId] = useState(initialSelectedJobId || null);
   const [filterType, setFilterType] = useState('all');
   const [showSavedJobs, setShowSavedJobs] = useState(false);
@@ -61,6 +62,15 @@ export default function JobDashboard({ user, onLogout, onShowProfile, onShowSett
     addNotification,
   } = useNotifications(user?.id);
 
+  // Debounce search term to reduce filtering calculations
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
+
   // Show toast when new notification arrives
   useEffect(() => {
     if (notifications.length > 0) {
@@ -93,10 +103,10 @@ export default function JobDashboard({ user, onLogout, onShowProfile, onShowSett
     [advancedFilters]
   );
 
-  // Derived state - using advanced filtering
+  // Derived state - using advanced filtering with debounced search
   const filteredJobs = useMemo(
-    () => filterJobsAdvanced(jobs, searchTerm, filterType, advancedFilters),
-    [jobs, searchTerm, filterType, advancedFilters]
+    () => filterJobsAdvanced(jobs, debouncedSearchTerm, filterType, advancedFilters),
+    [jobs, debouncedSearchTerm, filterType, advancedFilters]
   );
 
   const selectedJob = useMemo(
