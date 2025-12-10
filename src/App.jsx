@@ -14,31 +14,15 @@ function App() {
   const [currentView, setCurrentView] = useState('dashboard') // 'dashboard', 'profile', 'settings', or 'applications'
   const [selectedJobId, setSelectedJobId] = useState(null)
 
-  // Helper to build user object with profile data
-  const buildUserObject = useCallback(async (authUser) => {
-    const baseUser = {
+  // Helper to build user object (without extra profile fetch for performance)
+  const buildUserObject = useCallback((authUser) => {
+    return {
       id: authUser.id,
       name: authUser.user_metadata?.full_name || authUser.email.split('@')[0],
       email: authUser.email,
       initials: (authUser.user_metadata?.full_name || authUser.email).slice(0, 2).toUpperCase(),
-      avatarUrl: null
+      avatarUrl: authUser.user_metadata?.avatar_url || null
     }
-
-    // Try to fetch profile to get avatar_url
-    try {
-      const { data: profile } = await profiles.get(authUser.id)
-      if (profile?.avatar_url) {
-        baseUser.avatarUrl = profile.avatar_url
-      }
-      if (profile?.full_name) {
-        baseUser.name = profile.full_name
-        baseUser.initials = profile.full_name.slice(0, 2).toUpperCase()
-      }
-    } catch (err) {
-      console.log('Could not fetch profile for avatar:', err)
-    }
-
-    return baseUser
   }, [])
 
   // Function to update user avatar (called from ProfilePage)
@@ -54,7 +38,7 @@ function App() {
         const { session } = await auth.getSession()
         
         if (session?.user) {
-          const userData = await buildUserObject(session.user)
+          const userData = buildUserObject(session.user)
           setUser(userData)
         }
       } catch (error) {
@@ -67,9 +51,9 @@ function App() {
     initAuth()
 
     // Listen for auth state changes (for OAuth callbacks and session changes)
-    const { data: { subscription } } = auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
-        const userData = await buildUserObject(session.user)
+        const userData = buildUserObject(session.user)
         setUser(userData)
       } else if (event === 'SIGNED_OUT') {
         setUser(null)

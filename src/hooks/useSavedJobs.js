@@ -10,9 +10,13 @@ export function useSavedJobs(userId, jobs) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Load saved jobs from Supabase
+  // Load saved jobs from Supabase (lazy loading)
   const loadSavedJobs = useCallback(async () => {
-    if (!userId) return;
+    if (!userId) {
+      setSavedJobIds(new Set());
+      setSavedJobs([]);
+      return;
+    }
     
     setIsLoading(true);
     setError(null);
@@ -133,11 +137,15 @@ export function useSavedJobs(userId, jobs) {
   }, [savedJobs, jobs]);
 
   // Load on mount and when user changes
+  // Don't auto-load saved jobs on mount for performance
+  // They will be loaded lazily when user interacts with save feature
   useEffect(() => {
-    if (userId) {
+    if (userId && savedJobs.length === 0) {
+      // Only load if user is logged in and we haven't loaded yet
       loadSavedJobs();
     }
-  }, [userId, loadSavedJobs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   return {
     savedJobs,
